@@ -2,10 +2,10 @@
 ## JavaScript Temporal API
 _A talk by_ [Rimas Krivickas](https://www.linkedin.com/in/rimaskrivickas/).
 
-Time zones, date arithmetic, and daylight saving - JavaScript’s Date object (introduced in 1995, and very few updates along the way) has made them all harder than they should be.
+Time zones, date arithmetic, and daylight saving time - JavaScript’s Date object (introduced in 1995, with very few updates along the way) has made them all harder than they should be.
 The new Temporal API changes that.
 
-This talk explores how Temporal API brings reliable, intuitive, and time zone-aware date and time handling to modern JavaScript. You’ll learn how it fixes long-standing quirks of the Date object and makes working with time a pleasure rather than a source of peculiar bugs and recurring  headaches.
+This talk explores how Temporal API brings reliable, intuitive, and time zone-aware date and time handling to modern JavaScript. You’ll learn how it fixes long-standing quirks of the Date object, and makes working with dates a pleasure rather than a source of peculiar bugs and recurring  headaches.
 
 Introducing the JavaScript Temporal API - a long-overdue update, and a significant improvement to how developers work with dates and time in JavaScript.
 
