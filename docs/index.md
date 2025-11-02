@@ -95,6 +95,7 @@ console.log(yearMonth.daysInMonth); // 31
 Represents a specific month and day without a year or time.
 * Documentation: [TC39](https://tc39.es/proposal-temporal/docs/plainmonthday.html), [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal/PlainMonthDay)
 ###### _Examples:_
+
 ```js
 const monthDay = Temporal.PlainMonthDay.from({ month: 7, day: 14 });
 console.log(monthDay.toString()); // 07-14
@@ -128,6 +129,7 @@ console.log(duration.total({ unit: 'second' })); // 469200
 ### Nanosecond Precision
 Temporal API introduces nanosecond precision to UTC timestamp.
 ###### _Comparison of available APIs:_
+
 | API                                 | Nanosecond Precision?     | Absolute UTC? | Notes                                                    |
 |-------------------------------------|---------------------------|---------------|----------------------------------------------------------|
 | `Date.now()` | ❌ No (milliseconds)       | ✅ Yes         | Normal UTC timestamp.                                    |
