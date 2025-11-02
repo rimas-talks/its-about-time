@@ -5,7 +5,7 @@ _A talk by_ [Rimas Krivickas](https://www.linkedin.com/in/rimaskrivickas/).
 Time zones, date arithmetic, and daylight saving time - JavaScript’s Date object (introduced in 1995, with very few updates along the way) has made them all harder than they should be.
 The new Temporal API changes that.
 
-This talk explores how Temporal API brings reliable, intuitive, and time zone-aware date and time handling to modern JavaScript. You’ll learn how it fixes long-standing quirks of the Date object, and makes working with dates a pleasure rather than a source of peculiar bugs and recurring  headaches.
+This talk explores how Temporal API brings reliable, intuitive, time zone-aware date and time handling to modern JavaScript. You’ll learn how it fixes long-standing quirks of the Date object, and makes working with dates a pleasure rather than a source of peculiar bugs and recurring  headaches.
 
 Introducing the JavaScript Temporal API - a long-overdue update, and a significant improvement to how developers work with dates and time in JavaScript.
 
@@ -21,7 +21,7 @@ Introducing the JavaScript Temporal API - a long-overdue update, and a significa
 
 
 #### Temporal.Now
-Precise, time zone–aware access to the current date and time.
+Precise, timezone–aware access to the current date and time.
 * Documentation: [TC39](https://tc39.es/proposal-temporal/docs/now.html), [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal/Now)
 
 ###### _Examples:_
@@ -75,7 +75,7 @@ console.log(inTokyo.toString()); // 2022-01-29T03:53:00+09:00[Asia/Tokyo]
 
 
 #### Temporal.PlainDateTime
-Calendar date and wall-clock time without time zone or offset information.
+Calendar date, and wall-clock time without time zone or offset information.
 * Documentation: [TC39](https://tc39.es/proposal-temporal/docs/plaindatetime.html), [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal/PlainDateTime)
 
 ###### _Examples:_
@@ -197,7 +197,7 @@ _Additionally, see:_
 
 ### Multiple Calendar Systems
 Most of the world uses [Gregorian calendar](https://en.wikipedia.org/wiki/Gregorian_calendar) as represented by [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601), but many other calendar systems exist, and are widely used around the world.
-Therefore, in Temporal AP dates have associated calendar IDs, which allows us to perform complex calendar-related math.
+Therefore, in Temporal API dates have associated calendar IDs, which allow us to perform complex calendar-related calculations and conversions.
 * Documentation: [TS39 (1)](https://tc39.es/proposal-temporal/docs/calendars.html), [TC39 (2)](https://tc39.es/proposal-temporal/#sec-temporal-calendars), [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal#calendars)
 
 ###### _Examples:_
