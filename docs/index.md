@@ -6,6 +6,8 @@ A talk by [Rimas Krivickas](https://www.linkedin.com/in/rimaskrivickas/).
 * Explore code used in the presentation on [GitHub](https://github.com/rimas-talks/its-about-time).
 * Check the current status of the [proposal](https://tc39.es/proposal-temporal/).
 
+---
+
 
 
 ### New Building Blocks
@@ -149,9 +151,13 @@ console.log(duration.total({ unit: 'second' })); // 469200
 
 #### Object Relationship Diagram
  * Source: [TC39](https://tc39.es/proposal-temporal/docs/#object-relationship)
- * Also see: [String persistence, parsing, and formatting](https://tc39.es/proposal-temporal/docs/#string-persistence-parsing-and-formatting)
+ * Also see: 
+   * [String persistence, parsing, and formatting](https://tc39.es/proposal-temporal/docs/#string-persistence-parsing-and-formatting)
+   * [Conversion between classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal#conversion_between_classes)
 
 ![Object Relationship Diagram](assets/or_diagram.png)
+
+---
 
 
 
@@ -174,9 +180,51 @@ As demonstrated during the talk - you are more likely to be capturing time at mi
 
 This limitation does not apply to any other Temporal API calls. If you instantiate two `Temporal.Instant` objects with nanoseconds provided, arithmetic between those objects would honour the nanosecond precision.
 
-Additionally, see the following:
+_Additionally, see the:_
  * [Note regarding nanosecond accuracy](https://tc39.es/proposal-temporal/docs/now.html)
  * [Reduced time precision](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal/Now#reduced_time_precision)
+
+---
+
+
+
+### Multiple Calendar Systems
+Most of the world uses [Gregorian calendar](https://en.wikipedia.org/wiki/Gregorian_calendar) as represented by [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601), but many other calendar systems exist, and are widely used around the world.
+Therefore, in Temporal AP dates have associated calendar IDs, which allows us to perform complex calendar-related math.
+* Documentation: [TS39 (1)](https://tc39.es/proposal-temporal/docs/calendars.html), [TC39 (2)](https://tc39.es/proposal-temporal/#sec-temporal-calendars), [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal#calendars)
+
+###### _Examples:_
+
+```js
+// Derive the date of chinese new year for a given year
+const chineseNewYear = year =>
+    Temporal.PlainDate.from( { year: year, month: 7, day: 1 } )
+        .withCalendar( 'chinese' ).with( { month: 1, day: 1 } )
+        .withCalendar( 'iso8601' );
+```
+
+#### Calendar Systems Caveats
+ECMAScript specification [states](https://tc39.es/proposal-temporal/#sec-calendar-types) that, at a minimum, implementations must support a built-in calendar named `iso8601`, representing the ISO 8601 calendar.
+In addition, implementations _**may**_ support any number of other built-in calendars corresponding with those of the [Unicode Common Locale Data Repository (CLDR)](https://cldr.unicode.org/).
+
+⚠️ That means that you _**should not**_ assume that the JavaScript engine your application runs in, or that a polyfill you're using, has the calendar you need, nor that it has an accurate implementation of it.
+
+---
+
+
+
+### Summary
+ * Extensive set of objects 
+ * Immutability 
+ * Rich & expressive APIs 
+ * Easy date arithmetic with Durations 
+ * Explicit timezone control 
+ * DST disambiguation modes 
+ * Nanosecond precision (sort of…)
+ * Multiple calendar system support 
+ * January = 1
+
+---
 
 
 
@@ -184,5 +232,7 @@ Additionally, see the following:
  * [Date, MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)
  * [Temporal, MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal)
  * [Why is it Called UTC - not CUT?](https://www.timeanddate.com/time/utc-abbreviation.html)
+ * [Time Zone Database, IANA](https://www.iana.org/time-zones)
  * [Time Zones and Resolving Ambiguity](https://tc39.es/proposal-temporal/docs/timezone.html)
  * [String Parsing, Serialization, and Formatting in ECMAScript Temporal](https://tc39.es/proposal-temporal/docs/strings.html)
+ * [Temporal API Cookbook](https://tc39.es/proposal-temporal/docs/cookbook.html)
