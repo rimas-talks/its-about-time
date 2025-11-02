@@ -237,6 +237,8 @@ In addition, implementations _**may**_ support any number of other built-in cale
 
 
 ### References & Further Reading
+ * [Temporal _**polyfill**_ by proposal champions](https://www.npmjs.com/package/@js-temporal/polyfill)
+ * [Temporal _**polyfill**_ by FullCalendar](https://www.npmjs.com/package/temporal-polyfill)
  * [Date, MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)
  * [Temporal, MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal)
  * [Why is it Called UTC - not CUT?](https://www.timeanddate.com/time/utc-abbreviation.html)
