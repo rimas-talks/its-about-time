@@ -3,7 +3,7 @@
 A talk by [Rimas Krivickas](https://www.linkedin.com/in/rimaskrivickas/).
 
 * Watch the presentation on [YouTube](https://youtu.be/MzhKKB8Z61k).
-* Explore code used in the presentation on [GitHub](https://github.com/rimas-talks/its-about-time).
+* Explore the code used in the presentation on [GitHub](https://github.com/rimas-talks/its-about-time).
 * Check the current status of the [proposal](https://tc39.es/proposal-temporal/).
 
 ---
@@ -196,7 +196,7 @@ Therefore, in Temporal AP dates have associated calendar IDs, which allows us to
 ###### _Examples:_
 
 ```js
-// Derive the date of chinese new year for a given year
+// Derive the date of the Chinese New Year for a given year
 const chineseNewYear = year =>
     Temporal.PlainDate.from( { year: year, month: 7, day: 1 } )
         .withCalendar( 'chinese' ).with( { month: 1, day: 1 } )
@@ -204,10 +204,11 @@ const chineseNewYear = year =>
 ```
 
 #### Calendar Systems Caveats
-ECMAScript specification [states](https://tc39.es/proposal-temporal/#sec-calendar-types) that, at a minimum, implementations must support a built-in calendar named `iso8601`, representing the ISO 8601 calendar.
+ECMAScript specification [states](https://tc39.es/proposal-temporal/#sec-calendar-types) that:
+> At a minimum, implementations must support a built-in calendar named `iso8601`, representing the ISO 8601 calendar.
 In addition, implementations _**may**_ support any number of other built-in calendars corresponding with those of the [Unicode Common Locale Data Repository (CLDR)](https://cldr.unicode.org/).
 
-⚠️ That means that you _**should not**_ assume that the JavaScript engine your application runs in, or that a polyfill you're using, has the calendar you need, nor that it has an accurate implementation of it.
+⚠️ That means that you _**should not**_ assume that the JavaScript engine your application runs in, or that a polyfill you're using, has the calendar you need, nor that the implementation of it is accurate.
 
 ---
 
