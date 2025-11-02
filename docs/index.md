@@ -1,6 +1,13 @@
 # It's About Time...
 ## JavaScript Temporal API
-A talk by [Rimas Krivickas](https://www.linkedin.com/in/rimaskrivickas/).
+_A talk by_ [Rimas Krivickas](https://www.linkedin.com/in/rimaskrivickas/).
+
+Time zones, date arithmetic, and daylight saving - JavaScript’s Date object (introduced in 1995, and very few updates along the way) has made them all harder than they should be.
+The new Temporal API changes that.
+
+This talk explores how Temporal API brings reliable, intuitive, and time zone-aware date and time handling to modern JavaScript. You’ll learn how it fixes long-standing quirks of the Date object and makes working with time a pleasure rather than a source of peculiar bugs and recurring  headaches.
+
+Introducing the JavaScript Temporal API - a long-overdue update, and a significant improvement to how developers work with dates and time in JavaScript.
 
 * Watch the presentation on [YouTube](https://youtu.be/MzhKKB8Z61k).
 * Explore the code used in the presentation on [GitHub](https://github.com/rimas-talks/its-about-time).
@@ -166,12 +173,12 @@ Temporal API introduces nanosecond precision to UTC timestamp.
 
 ###### _Comparison of available APIs:_
 
-| API                                 | Nanosecond Precision?     | Absolute UTC? | Notes                                                    |
-|-------------------------------------|---------------------------|---------------|----------------------------------------------------------|
-| `Date.now()` | ❌ No (milliseconds)       | ✅ Yes         | Normal UTC timestamp.                                    |
-| `performance.now()`                 | ✅ Yes (micro/nanoseconds) | ❌ No          | Relative to page or process start, not UTC.              |
-| `process.hrtime.bigint()`           | ✅ Yes                     | ❌ No          | High-resolution, monotonic; not tied to wall-clock time. |
-| `Temporal.Now.instant()`            | ✅ Yes                     | ✅ Yes         | True absolute UTC time with nanosecond precision.        |
+| API                                 | Nanosecond Precision?    | Absolute UTC? | Notes                                                    |
+|-------------------------------------|--------------------------|---------------|----------------------------------------------------------|
+| `Date.now()` | ❌ No (milliseconds)      | ✅ Yes         | Normal UTC timestamp.                                    |
+| `performance.now()`                 | ⚠️ Yes (micro/nanoseconds) | ❌ No          | Relative to page or process start, not UTC.              |
+| `process.hrtime.bigint()`           | ✅ Yes                    | ❌ No          | High-resolution, monotonic; not tied to wall-clock time. |
+| `Temporal.Now.instant()`            | ✅ Yes                    | ✅ Yes         | True absolute UTC time with nanosecond precision.        |
 
 #### Precision Caveats
 While ECMAScript specification states that Temporal API uses nanosecond precision, which offers six orders of magnitude more granularity, and significantly improves precision when doing date and time arithmetic - capturing current time in nanoseconds is more nuanced and system dependent due to how JavaScript engine itself uses available syscalls.
@@ -180,7 +187,7 @@ As demonstrated during the talk - you are more likely to be capturing time at mi
 
 This limitation does not apply to any other Temporal API calls. If you instantiate two `Temporal.Instant` objects with nanoseconds provided, arithmetic between those objects would honour the nanosecond precision.
 
-_Additionally, see the:_
+_Additionally, see:_
  * [Note regarding nanosecond accuracy](https://tc39.es/proposal-temporal/docs/now.html)
  * [Reduced time precision](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal/Now#reduced_time_precision)
 
