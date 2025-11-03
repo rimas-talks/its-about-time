@@ -135,7 +135,7 @@ const main = async function () {
             value: VerificationFunctions.SIMPLE_TEMPORAL_API,
             description: 'Simple age verification function using Temporal API.',
         }, {
-            name: 'Location-aware',
+            name: 'Location-Aware',
             value: VerificationFunctions.LOCATION_AWARE,
             description: 'Location aware age verification function using Temporal API',
         }],
@@ -156,10 +156,3 @@ const main = async function () {
 }
 
 await main();
-
-// TODO Add these examples:
-// console.log(isOfAgeWithLocation(makeDate("2025-02-28T05:59"), birthday, 21)); // false - Zurich is 6h ahead
-// console.log(isOfAgeWithLocation(makeDate("2025-02-28T06:00"), birthday, 21)); // true - Zurich is 6h ahead
-// console.log(isOfAgeWithLocation(makeDate("2025-02-28T06:00"), birthday, 21, true)); // false - Leap year birthday (forcing Mar 1)
-// console.log(isOfAgeWithLocation(makeDate("2025-03-01T06:00"), birthday, 21, true)); // true - Leap year birthday (forcing Mar 1)
-// console.log(isOfAgeWithLocation(makeDate("2025-03-01T05:59"), birthday, 21, true)); // false - Leap year birthday (forcing Mar 1), Zurich is 6h ahead
