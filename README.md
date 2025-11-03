@@ -27,6 +27,10 @@ npm install
 ## Examples
 
 ### Age Verification
+Age verification script is implemented as an interactive prompt that allows you to select which function you want to test, and then captures the required details.
+ * _**Simple (using Date)**_ - a simple age verification function, does not take into account time or timezones, implemented using Date object.
+ * _**Simple (using Temporal API)**_ - same as the above, but implemented using Temporal API.
+ * _**Location-aware**_ - age verification function that takes into account time and location information, implemented using Temporal API.
 
 Use the following command to run the example:
 
