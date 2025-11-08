@@ -34,8 +34,8 @@ function uniqueValues(name, valueFunc, perEntries = BenchmarkDefaults.NUM_ENTRIE
 
 
 /**
- * Function capturing unique values using 'new Date().getMilliseconds()' which is the most
- * accurate option available with Date object.
+ * Function capturing unique values using 'new Date().getMilliseconds()' which offers the most
+ * precision for our benchmarking purposes, but isn't a UTC timestamp value.
  * @param perEntries the number of time the value function will be called.
  * @param verbose a flag that enables or disables printing of the information to the console.
  * @returns {number} a number of unique values that were generated.
@@ -45,7 +45,7 @@ const uniqueValuesDate = (perEntries = BenchmarkDefaults.NUM_ENTRIES, verbose = 
 
 
 /**
- * Function capturing unique values using 'Date.now()' which generally produces the least amount of unique values.
+ * Function capturing unique values using 'Date.now()' which produces the least amount of unique values.
  * @param perEntries the number of time the value function will be called.
  * @param verbose a flag that enables or disables printing of the information to the console.
  * @returns {number} a number of unique values that were generated.
@@ -88,50 +88,38 @@ const uniqueValuesTemporalMillis = (perEntries = BenchmarkDefaults.NUM_ENTRIES, 
  * Function that produces the comparison in orders of magnitude between Date and Temporal API most precise timestamps.
  * @param perEntries the number of times the value functions of both APIs will be called.
  * @param numIterations the number of iterations to use to determine the averages of both APIs.
+ * @param dateFunction the function to be used for Date object benchmarks.
  */
-function comparison(perEntries = BenchmarkDefaults.NUM_ENTRIES, numIterations = BenchmarkDefaults.NUM_ITERATIONS) {
+function comparison(perEntries = BenchmarkDefaults.NUM_ENTRIES, numIterations = BenchmarkDefaults.NUM_ITERATIONS, dateFunction = uniqueValuesDate) {
     assert(BenchmarkDefaults.MIN_ENTRIES <= perEntries && perEntries <= BenchmarkDefaults.MAX_ENTRIES, `Invalid argument 'perEntries', must use a value between ${BenchmarkDefaults.MIN_ENTRIES} and ${BenchmarkDefaults.MAX_ENTRIES} (inclusive), but ${perEntries} was given.`);
     assert(0 < numIterations && numIterations <= BenchmarkDefaults.MAX_ITERATIONS, `Invalid argument 'numIterations', must use a value between 1 and ${BenchmarkDefaults.MAX_ITERATIONS} (inclusive), but ${numIterations} was given.`);
     console.log(`Capturing ${numIterations} iterations of ${perEntries.toLocaleString()} entries (Date and Temporal.Instant each)...`);
     const resultList = [];
 
-    for (let i = 0; i < numIterations; i++) resultList.push(oomDiff(uniqueValuesDate(perEntries, false), uniqueValuesTemporal(perEntries, false)));
+    for (let i = 0; i < numIterations; i++) resultList.push(oomDiff(dateFunction(perEntries, false), uniqueValuesTemporal(perEntries, false)));
 
     console.log("Orders of magnitude difference:", average(...resultList).toFixed(2));
 }
 
 
-// TODO Add explainer printout
-/*
-const timestamp1 = Date.now();
-console.log(timestamp1);
+function apis() {
+    console.log('\n\x1b[3mDate Object\x1b[0m');
+    console.log(' ├ Date.now() '.padEnd(46,' '), Date.now(), '→ Milliseconds, UTC timestamp');
+    console.log(' ├ new Date().getTime() '.padEnd(46,' '), new Date().getTime(), '→ Milliseconds, UTC timestamp');
+    console.log(' ╰ new Date().getMilliseconds() '.padEnd(46,' '), new Date().getMilliseconds(), '→ Milliseconds, not a UTC timestamp');
 
-const timestamp = new Date().getTime();
-console.log(timestamp)
+    console.log('\n\x1b[3mNode / Browsers\x1b[0m');
+    console.log(' ├ performance.now() '.padEnd(46,' '), performance.now(), '→ More precise, but not an absolute UTC timestamp (micro/nano precision)');
+    console.log(' ╰ process.hrtime.bigint() '.padEnd(46,' '), process.hrtime.bigint(),'→ Nanosecond precision, monotonic, but not UTC');
 
-const timestampSeconds = Math.floor(Date.now() / 1000);
-console.log(timestampSeconds);
-
-const utcString = new Date().toISOString();
-console.log(utcString); // e.g. "2025-09-17T07:04:30.123Z"
-
-const tsBigInt = BigInt(Date.now());
-console.log(tsBigInt);
-
-// More precise, but not an absolute UTC timestamp.
-console.log(performance.now()); // e.g. 1234.567890123 (micro/nano precision)
-
-// Nanosecond precision, monotonic, not UTC.
-const ns = process.hrtime.bigint();
-console.log(ns); // e.g. 312345678901234n
-
-// Temporal.Now.instant() gives you a true nanosecond UTC timestamp.
-const instant = Temporal.Now.instant();
-console.log(instant.epochNanoseconds); // BigInt in ns
-*/
+    console.log('\n\x1b[3mTemporal API\x1b[0m');
+    console.log(' ╰ Temporal.Now.instant().epochNanoseconds '.padEnd(46,' '), Temporal.Now.instant().epochNanoseconds, '→ True nanosecond UTC timestamp as BigInt');
+    console.log();
+}
 
 export {
     BenchmarkDefaults,
+    apis,
     uniqueValuesDate,
     uniqueValuesDateNow,
     uniqueValuesDateTime,

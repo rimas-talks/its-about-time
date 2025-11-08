@@ -183,7 +183,7 @@ Temporal API introduces nanosecond precision to UTC timestamp.
 #### Precision Caveats
 While ECMAScript specification states that Temporal API uses nanosecond precision, which offers six orders of magnitude more granularity, and significantly improves precision when doing date and time arithmetic - capturing current time in nanoseconds is more nuanced and system dependent due to how JavaScript engine itself uses available syscalls.
 
-As demonstrated during the talk - you are more likely to be capturing time at microsecond precision. This limitation however would be also present in other languages such as Java, Python, Ruby, etc. on the same system.
+As demonstrated during the talk - even when using Temporal API, you are more likely to be capturing time at a microsecond precision. This limitation however would be also present in other languages such as Java, Python, Ruby, etc. on the same system.
 
 This limitation does not apply to any other Temporal API calls. If you instantiate two `Temporal.Instant` objects with nanoseconds provided, arithmetic between those objects would honour the nanosecond precision.
 
