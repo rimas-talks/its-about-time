@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dob": "node --harmony-temporal src/internal/runners/dob-runner.js",
-    "precision": "node --harmony-temporal src/precision.js",
+    "precision": "node --harmony-temporal src/internal/runners/precision-runner.js",
     "calendar": "node --harmony-temporal src/internal/runners/calendar-runner.js"
   },
   "author": "Rimas Krivickas",

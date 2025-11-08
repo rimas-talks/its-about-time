@@ -1,15 +1,30 @@
-import {program} from "commander";
 import {assert, average, oomDiff} from "./internal/utils.js";
 
-const MIN_ENTRIES = 100;
-const MAX_ENTRIES = 1_000_000;
-const NUM_ENTRIES = 1_000_000;
-const MAX_ITERATIONS = 32;
-const NUM_ITERATIONS = 10;
+
+/**
+ * Object containing default values for various benchmark options.
+ * @type {{MIN_ENTRIES: number, NUM_ENTRIES: number, MAX_ENTRIES: number, NUM_ITERATIONS: number, MAX_ITERATIONS: number}}
+ */
+const BenchmarkDefaults = {
+    MIN_ENTRIES: 100,
+    MAX_ENTRIES: 1_000_000,
+    NUM_ENTRIES: 1_000_000,
+    MAX_ITERATIONS: 32,
+    NUM_ITERATIONS: 10
+}
 
 
-function uniqueValues(name, valueFunc, perEntries = NUM_ENTRIES, verbose = true) {
-    assert(MIN_ENTRIES <= perEntries && perEntries <= MAX_ENTRIES, `Invalid argument 'perEntries', must use a value between ${MIN_ENTRIES} and ${MAX_ENTRIES} (inclusive), but ${perEntries} was given.`);
+/**
+ * A base function that captures the number of unique values generated
+ * by calling provided function for a specified number of times.
+ * @param name the name for a function under test.
+ * @param valueFunc the function to be called for generating the values being assessed.
+ * @param perEntries the number of time the value function will be called.
+ * @param verbose a flag that enables or disables printing of the information to the console.
+ * @returns {number} a number of unique values that were generated.
+ */
+function uniqueValues(name, valueFunc, perEntries = BenchmarkDefaults.NUM_ENTRIES, verbose = true) {
+    assert(BenchmarkDefaults.MIN_ENTRIES <= perEntries && perEntries <= BenchmarkDefaults.MAX_ENTRIES, `Invalid argument 'perEntries', must use a value between ${BenchmarkDefaults.MIN_ENTRIES} and ${BenchmarkDefaults.MAX_ENTRIES} (inclusive), but ${perEntries} was given.`);
     if (verbose) console.log(`Capturing ${Math.floor(perEntries).toLocaleString()} ${name} entries...`);
     const entries = new Set();
     for (let i = 0; i < Math.floor(perEntries); i++) entries.add(valueFunc());
@@ -17,17 +32,66 @@ function uniqueValues(name, valueFunc, perEntries = NUM_ENTRIES, verbose = true)
     return entries.size;
 }
 
-function uniqueValuesDate(perEntries = NUM_ENTRIES, verbose = true) {
-    return uniqueValues("Date", () => new Date().getMilliseconds(), perEntries, verbose);
-}
 
-function uniqueValuesTemporal(perEntries = NUM_ENTRIES, verbose = true) {
-    return uniqueValues("Temporal", () => Temporal.Now.instant().epochNanoseconds, perEntries, verbose);
-}
+/**
+ * Function capturing unique values using 'new Date().getMilliseconds()' which is the most
+ * accurate option available with Date object.
+ * @param perEntries the number of time the value function will be called.
+ * @param verbose a flag that enables or disables printing of the information to the console.
+ * @returns {number} a number of unique values that were generated.
+ */
+const uniqueValuesDate = (perEntries = BenchmarkDefaults.NUM_ENTRIES, verbose = true) =>
+    uniqueValues("Date", () => new Date().getMilliseconds(), perEntries, verbose);
 
-function comparison(perEntries = NUM_ENTRIES, numIterations = NUM_ITERATIONS) {
-    assert(MIN_ENTRIES <= perEntries && perEntries <= MAX_ENTRIES, `Invalid argument 'perEntries', must use a value between ${MIN_ENTRIES} and ${MAX_ENTRIES} (inclusive), but ${perEntries} was given.`);
-    assert(0 < numIterations && numIterations <= MAX_ITERATIONS, `Invalid argument 'numIterations', must use a value between 1 and ${MAX_ITERATIONS} (inclusive), but ${numIterations} was given.`);
+
+/**
+ * Function capturing unique values using 'Date.now()' which generally produces the least amount of unique values.
+ * @param perEntries the number of time the value function will be called.
+ * @param verbose a flag that enables or disables printing of the information to the console.
+ * @returns {number} a number of unique values that were generated.
+ */
+const uniqueValuesDateNow = (perEntries = BenchmarkDefaults.NUM_ENTRIES, verbose = true) =>
+    uniqueValues("'Date.now()'", () => Date.now(), perEntries, verbose);
+
+
+/**
+ * Function capturing unique values using 'new Date().getTime()'.
+ * @param perEntries the number of time the value function will be called.
+ * @param verbose a flag that enables or disables printing of the information to the console.
+ * @returns {number} a number of unique values that were generated.
+ */
+const uniqueValuesDateTime = (perEntries = BenchmarkDefaults.NUM_ENTRIES, verbose = true) =>
+    uniqueValues("'new Date().getTime()'", () => new Date().getTime(), perEntries, verbose);
+
+
+/**
+ * Function capturing unique values using 'Temporal.Now.instant().epochNanoseconds'.
+ * @param perEntries the number of time the value function will be called.
+ * @param verbose a flag that enables or disables printing of the information to the console.
+ * @returns {number} a number of unique values that were generated.
+ */
+const uniqueValuesTemporal = (perEntries = BenchmarkDefaults.NUM_ENTRIES, verbose = true) =>
+    uniqueValues("Temporal", () => Temporal.Now.instant().epochNanoseconds, perEntries, verbose);
+
+
+/**
+ * Function capturing unique values using 'Temporal.Now.instant().epochMilliseconds'.
+ * @param perEntries the number of time the value function will be called.
+ * @param verbose a flag that enables or disables printing of the information to the console.
+ * @returns {number} a number of unique values that were generated.
+ */
+const uniqueValuesTemporalMillis = (perEntries = BenchmarkDefaults.NUM_ENTRIES, verbose = true) =>
+    uniqueValues("Temporal (milliseconds)", () => Temporal.Now.instant().epochMilliseconds, perEntries, verbose);
+
+
+/**
+ * Function that produces the comparison in orders of magnitude between Date and Temporal API most precise timestamps.
+ * @param perEntries the number of times the value functions of both APIs will be called.
+ * @param numIterations the number of iterations to use to determine the averages of both APIs.
+ */
+function comparison(perEntries = BenchmarkDefaults.NUM_ENTRIES, numIterations = BenchmarkDefaults.NUM_ITERATIONS) {
+    assert(BenchmarkDefaults.MIN_ENTRIES <= perEntries && perEntries <= BenchmarkDefaults.MAX_ENTRIES, `Invalid argument 'perEntries', must use a value between ${BenchmarkDefaults.MIN_ENTRIES} and ${BenchmarkDefaults.MAX_ENTRIES} (inclusive), but ${perEntries} was given.`);
+    assert(0 < numIterations && numIterations <= BenchmarkDefaults.MAX_ITERATIONS, `Invalid argument 'numIterations', must use a value between 1 and ${BenchmarkDefaults.MAX_ITERATIONS} (inclusive), but ${numIterations} was given.`);
     console.log(`Capturing ${numIterations} iterations of ${perEntries.toLocaleString()} entries (Date and Temporal.Instant each)...`);
     const resultList = [];
 
@@ -36,52 +100,6 @@ function comparison(perEntries = NUM_ENTRIES, numIterations = NUM_ITERATIONS) {
     console.log("Orders of magnitude difference:", average(...resultList).toFixed(2));
 }
 
-
-program
-    .name('precision')
-    .description('JavaScript CLI demonstrating precision differences between Date, and Temporal API.')
-    .version('1.0.0');
-
-program
-    .command('date')
-    .description('outputs the number of unique Date values when captured sequentially for a given number of entries')
-    .option('-e, --per-entries <number>', 'number of entries', NUM_ENTRIES)
-    .action((options) => {
-        try {
-            const perEntries = typeof options.perEntries == "string" ? options.perEntries.replace(/[^\d.-]/g, "") : options.perEntries;
-            uniqueValuesDate(perEntries);
-        } catch (e) {
-            console.log(e.message);
-        }
-    });
-
-program
-    .command('temporal')
-    .description('outputs the number of unique Temporal.Instant values when captured sequentially for a given number of entries')
-    .option('-e, --per-entries <number>', 'number of entries', NUM_ENTRIES)
-    .action((options) => {
-        try {
-            const perEntries = typeof options.perEntries == "string" ? options.perEntries.replace(/[^\d.-]/g, "") : options.perEntries;
-            uniqueValuesTemporal(perEntries);
-        } catch (e) {
-            console.log(e.message);
-        }
-    });
-
-program
-    .command('compare')
-    .description('outputs the difference in orders of magnitude between unique Date and Temporal.Instant values when captured sequentially for a given number of entries over a specified number of iterations')
-    .option('-i, --num-iterations <number>', 'number of iterations', NUM_ITERATIONS)
-    .option('-e, --per-entries <number>', 'number of entries', NUM_ENTRIES)
-    .action((options) => {
-        try {
-            const numIterations = typeof options.numIterations == "string" ? options.numIterations.replace(/[^\d.-]/g, "") : options.numIterations;
-            const perEntries = typeof options.perEntries == "string" ? options.perEntries.replace(/[^\d.-]/g, "") : options.perEntries;
-            comparison(perEntries, numIterations);
-        } catch (e) {
-            console.log(e.message);
-        }
-    });
 
 // TODO Add explainer printout
 /*
@@ -112,5 +130,12 @@ const instant = Temporal.Now.instant();
 console.log(instant.epochNanoseconds); // BigInt in ns
 */
 
-
-program.parse();
+export {
+    BenchmarkDefaults,
+    uniqueValuesDate,
+    uniqueValuesDateNow,
+    uniqueValuesDateTime,
+    uniqueValuesTemporal,
+    uniqueValuesTemporalMillis,
+    comparison
+};
