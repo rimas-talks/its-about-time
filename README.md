@@ -26,7 +26,7 @@ npm install
 
 ## Examples
 
-### Age Verification
+### 1. Age Verification
 Age verification script is implemented as an interactive prompt that allows you to select which function you want to test, and then captures the required details.
 
 #### Use the following command to run the example:
@@ -56,10 +56,37 @@ For verification values use:
 | ❌ _**false**_  | `Europe/Zurich` | `2025-03-01` | `05:59` | `21`        | `true`        | Leap year birthday (forcing Mar 1), Zurich is 6h ahead |
 
 
-### Precision
+### 2. Precision
+Precision benchmark script is implemented as a CLI - running it without specific commands will print a help menu. See the help menu for available commands and options. 
 
-Use the following command to run the example:
+#### Use the following command to run the example:
 
 ```shell
 npm run precision
 ```
+
+Please note that when running scripts with `npm run`, options are passed following the `--` separator, like so:
+
+✅ Correct Way:
+
+```shell
+npm run precision temporal -- -e 100_000
+```
+
+❌ Incorrect Way (even though this order is displayed in the help menu):
+
+```shell
+npm run precision -e 100_000 temporal
+```
+
+
+### 3. Calendar
+Calendar script is implemented as an interactive prompt that allows you to input the desired year and find out the Gregorian calendar date of the Chinese New Year for that year.
+
+#### Use the following command to run the example:
+
+```shell
+npm run calendar
+```
+
+⚠️ NOTE: Only years between 2024 and 2035 will be validated ([against this data](https://en.wikipedia.org/wiki/Chinese_New_Year#Dates_in_the_Chinese_lunisolar_calendar)), other years will display an accuracy warning. Additionally, current implementation of Temporal API polyfills provide inaccurate results for years 2027 and 2030.

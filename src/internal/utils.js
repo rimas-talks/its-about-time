@@ -35,4 +35,17 @@ const average = (...nums) => nums.length ? nums.reduce((a, b) => a + b) / nums.l
 const oomDiff = (a, b) => Math.abs(Math.log10(a) - Math.log10(b));
 
 
-export {assert, makeDate, average, oomDiff};
+/**
+ * A convenience object containing various input validations.
+ * @type {{isTimeZoneId: (function(*): boolean), isDate: (function(*): boolean), isYear: (function(*): boolean), isTime: (function(*): boolean), isAllowedAge: (function(*): *)}}
+ */
+const Validations = {
+    isYear: value => /^\d{4}$/.test(value),
+    isDate: value => /^\d{4}-\d{2}-\d{2}$/.test(value),
+    isTime: value => /^([01]\d|2[0-3]):([0-5]\d)(?::([0-5]\d))?$/.test(value),
+    isAllowedAge: value => !Number.isNaN(Number(value)) && Number(value) > 0,
+    isTimeZoneId: value => /^[A-Za-z]+(?:\/[A-Za-z_]+)+$/.test(value)
+}
+
+
+export {assert, makeDate, average, oomDiff, Validations};

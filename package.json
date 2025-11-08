@@ -4,8 +4,9 @@
   "description": "JavaScript Temporal API code examples.",
   "type": "module",
   "scripts": {
-    "dob": "node --harmony-temporal src/dob.js",
-    "precision": "node --harmony-temporal src/precision.js"
+    "dob": "node --harmony-temporal src/internal/runners/dob-runner.js",
+    "precision": "node --harmony-temporal src/precision.js",
+    "calendar": "node --harmony-temporal src/internal/runners/calendar-runner.js"
   },
   "author": "Rimas Krivickas",
   "license": "ISC",

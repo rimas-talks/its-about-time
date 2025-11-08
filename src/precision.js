@@ -1,5 +1,5 @@
 import {program} from "commander";
-import {assert, average, oomDiff} from "./utils.js";
+import {assert, average, oomDiff} from "./internal/utils.js";
 
 const MIN_ENTRIES = 100;
 const MAX_ENTRIES = 1_000_000;
