@@ -236,6 +236,20 @@ In addition, implementations _**may**_ support any number of other built-in cale
 
 
 
+### Alternative Projects
+A number of projects have attempted to solve some of the problems Temporal API solves. There is no one single project that addresses _**all**_ of what Temporal API offers, but the following list contains some of the more noteworthy options in no particular order:
+
+* [Luxon](https://www.npmjs.com/package/luxon)
+* [Moment.js](https://www.npmjs.com/package/moment) + [Moment Timezone](https://www.npmjs.com/package/moment-timezone)
+* [Day.js](https://www.npmjs.com/package/dayjs)
+* [date-fns](https://www.npmjs.com/package/date-fns)
+* [js-Joda](https://www.npmjs.com/package/@js-joda/core) + [js-Joda Timezone](https://www.npmjs.com/package/@js-joda/timezone)
+* [Spacetime](https://www.npmjs.com/package/spacetime)
+
+---
+
+
+
 ### References & Further Reading
  * [Temporal _**polyfill**_ by proposal champions](https://www.npmjs.com/package/@js-temporal/polyfill)
  * [Temporal _**polyfill**_ by FullCalendar](https://www.npmjs.com/package/temporal-polyfill)
