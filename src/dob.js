@@ -12,7 +12,7 @@ function isOfAgeUsingDate(onDate, birthday, minAge = 18) {
     let birthdayMonth = birthDate.getMonth();
     let birthdayDay = birthDate.getDate();
 
-    // Handle leap day birthdays on non-leap years → shift to Mar 1
+    // On non-leap years constrain February to 28 days
     if (birthdayMonth === 1 && birthdayDay === 29) {
         const year = verificationDate.getFullYear();
         const isLeap = new Date(year, 1, 29).getDate() === 29;
